@@ -1,5 +1,8 @@
 package ua.nure.infostroy.kovaljov.introduction;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Проверка орфографии
  * 
@@ -15,7 +18,28 @@ package ua.nure.infostroy.kovaljov.introduction;
  */
 public class TextUtils {
 
+	private StringBuilder getCorrectSentence(String sentence) {
+		StringBuilder result = new StringBuilder();
+		char[] arr = sentence.toCharArray();
+		result.append(Character.toUpperCase(arr[0]));
+		for(int i =1; i<arr.length;i++) {
+			if (arr[i] == ',' && arr[i+1]!=' ') {
+				result.append(arr[i]);
+				result.append(' ');
+				continue;
+			}
+			result.append(arr[i]);
+		}
+		result.append(' ');
+		return result;
+	}
 	public String correctText(String text) {
-		return text;
+		Pattern p = Pattern.compile("[A-Za-zА-Яа-я]+[^.!?]*[.!?]");  
+        Matcher m = p.matcher(text);
+        StringBuilder result = new StringBuilder();
+        while(m.find()) {
+        	result.append(getCorrectSentence(m.group()));
+        }
+        return result.toString();
 	}
 }

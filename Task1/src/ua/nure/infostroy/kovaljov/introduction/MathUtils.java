@@ -129,7 +129,7 @@ public class MathUtils {
 		return sieve(length);
 	}
 
-	private static String toString(int[] arr) {
+	public static String toString(int[] arr) {
 		StringBuilder sb = new StringBuilder();
 		for (Integer item : arr) {
 			sb.append(item);
