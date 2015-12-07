@@ -9,13 +9,13 @@ public class TriangleUtils {
 	 * могут быть сторонами треугольника и false, если не могут.
 	 *
 	 */
-	
+
 	public boolean isTriangle(int a, int b, int c) throws IllegalArgumentException {
-		if (a<=0||b<=0||c<=0) {
+		if (a <= 0 || b <= 0 || c <= 0) {
 			throw new IllegalArgumentException();
 		}
-		double p = (double)(a+b+c)/2;
-		return p*(p-a)*(p-b)*(p-c)>0;
+		double p = (double) (a + b + c) / 2;
+		return p * (p - a) * (p - b) * (p - c) > 0;
 	}
 
 	/**
@@ -24,12 +24,11 @@ public class TriangleUtils {
 	 */
 
 	public double getTriangleArea(int a, int b, int c) throws IllegalArgumentException {
-		if (a<=0||b<=0||c<=0 || !isTriangle(a, b, c) ) {
+		if (a <= 0 || b <= 0 || c <= 0 || !isTriangle(a, b, c)) {
 			throw new IllegalArgumentException();
 		}
-		double p = (double)(a+b+c)/2;
-		return Math.sqrt(p*(p-a)*(p-b)*(p-c));
+		double p = (double) (a + b + c) / 2;
+		return Math.sqrt(p * (p - a) * (p - b) * (p - c));
 	}
-	public static void main(String[] args) {
-	}
+
 }

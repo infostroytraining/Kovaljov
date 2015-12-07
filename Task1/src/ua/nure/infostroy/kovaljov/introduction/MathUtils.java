@@ -117,8 +117,7 @@ public class MathUtils {
 				digits[index] = digit;
 				index++;
 				digit++;
-			}
-			else {
+			} else {
 				digit++;
 			}
 		}

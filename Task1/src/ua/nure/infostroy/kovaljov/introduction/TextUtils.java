@@ -13,8 +13,8 @@ import java.util.regex.Pattern;
  * 
  * Что нужно сделать:
  * 
- * 1. Каждое новое предложение должно начинаться с заглавной буквы.
- * 2. После знаков препинания (точка и запятая) должны быть пробелы.
+ * 1. Каждое новое предложение должно начинаться с заглавной буквы. 2. После
+ * знаков препинания (точка и запятая) должны быть пробелы.
  */
 public class TextUtils {
 
@@ -22,8 +22,8 @@ public class TextUtils {
 		StringBuilder result = new StringBuilder();
 		char[] arr = sentence.toCharArray();
 		result.append(Character.toUpperCase(arr[0]));
-		for(int i =1; i<arr.length;i++) {
-			if (arr[i] == ',' && arr[i+1]!=' ') {
+		for (int i = 1; i < arr.length; i++) {
+			if (arr[i] == ',' && arr[i + 1] != ' ') {
 				result.append(arr[i]);
 				result.append(' ');
 				continue;
@@ -33,13 +33,14 @@ public class TextUtils {
 		result.append(' ');
 		return result;
 	}
+
 	public String correctText(String text) {
-		Pattern p = Pattern.compile("[A-Za-zА-Яа-я]+[^.!?]*[.!?]");  
-        Matcher m = p.matcher(text);
-        StringBuilder result = new StringBuilder();
-        while(m.find()) {
-        	result.append(getCorrectSentence(m.group()));
-        }
-        return result.toString();
+		Pattern p = Pattern.compile("[A-Za-zА-Яа-я]+[^.!?]*[.!?]");
+		Matcher m = p.matcher(text);
+		StringBuilder result = new StringBuilder();
+		while (m.find()) {
+			result.append(getCorrectSentence(m.group()));
+		}
+		return result.toString();
 	}
 }
