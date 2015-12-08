@@ -30,5 +30,7 @@ public class TriangleUtils {
 		double p = (double) (a + b + c) / 2;
 		return Math.sqrt(p * (p - a) * (p - b) * (p - c));
 	}
+	
+	
 
 }

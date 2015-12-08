@@ -1,5 +1,10 @@
 package ua.nure.infostroy.kovaljov.introduction;
 
+import static org.junit.Assert.assertEquals;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -30,6 +35,9 @@ public class TextUtils {
 			}
 			result.append(arr[i]);
 		}
+		if (sentence.indexOf('.')<0) {
+			result.append('.');
+		}
 		result.append(' ');
 		return result;
 	}
@@ -41,6 +49,28 @@ public class TextUtils {
 		while (m.find()) {
 			result.append(getCorrectSentence(m.group()));
 		}
+		if (result.length()==0) {
+			result.append(getCorrectSentence(text));
+		}
 		return result.toString();
+	}
+	
+	public static void main(String[] args) {
+		Map<String, String> results = new HashMap<String, String>() {
+			{
+				put("Вечерело. Смеркалось.", "Вечерело. Смеркалось. ");
+				put("карл,локально всё работает", "Карл, локально всё работает. ");
+				put("Форма тела пингвинов обтекаемая,что идеально для передвижения в воде. ",
+						"Форма тела пингвинов обтекаемая, что идеально для передвижения в воде. ");
+				put("утро.петя собирается в университет.", "Утро. Петя собирается в университет. ");
+			}
+		};
+
+		for (Entry<String, String> entry : results.entrySet()) {
+			String parameter = entry.getKey();
+			String expected = entry.getValue();
+			String actual = new TextUtils().correctText(parameter);
+			System.out.println(expected.equals(actual));
+		}
 	}
 }

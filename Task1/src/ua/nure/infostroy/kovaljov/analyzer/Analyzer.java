@@ -67,25 +67,41 @@ public class Analyzer {
 		};
 	}
 
-	private void printFrequencyResult(Set<Entry<String, Integer>> collection) {
+	private String printFrequencyResult(Set<Entry<String, Integer>> collection) {
+		StringBuilder sb = new StringBuilder();
 		for (Entry<String, Integer> entry : collection) {
 			System.out.println(entry.getKey() + " ==> " + entry.getValue());
+			sb.append(entry.getKey());
+			sb.append(" == > ");
+			sb.append(entry.getValue());
+			sb.append(System.lineSeparator());
 		}
+		return sb.toString();
 	}
 
-	private void printLengthResult(List<String> result) {
+	private String printLengthResult(List<String> result) {
+		StringBuilder sb = new StringBuilder();
 		for (String item : result) {
 			System.out.println(item + " ==> " + item.length());
+			sb.append(item);
+			sb.append(" == > ");
+			sb.append(item.length());
+			sb.append(System.lineSeparator());
 		}
+		return sb.toString();
 	}
 
-	private void printDuplicatesResult(Set<String> result) {
+	private String printDuplicatesResult(Set<String> result) {
+		StringBuilder sb = new StringBuilder();
 		for (String item : result) {
-			System.out.println(new StringBuilder(item).reverse().toString());
+			sb.append(new StringBuilder(item).reverse().toString());
+			sb.append(System.lineSeparator());
 		}
+		System.out.println(sb.toString());
+		return sb.toString();
 	}
 
-	public void getFrequency(String text) {
+	public String getFrequency(String text) {
 		Matcher m = p.matcher(text);
 		Map<String, Integer> wordToFrequency = new TreeMap<String, Integer>();
 		while (m.find()) {
@@ -106,10 +122,10 @@ public class Analyzer {
 			values.add(entry);
 			count++;
 		}
-		printFrequencyResult(values);
+		return printFrequencyResult(values);
 	}
 
-	public void getLength(String text) {
+	public String getLength(String text) {
 
 		Set<String> wordSet = new TreeSet<String>(getLengthComparator());
 		Matcher m = p.matcher(text);
@@ -121,16 +137,15 @@ public class Analyzer {
 		int count = 0;
 		for (String item : wordSet) {
 			if (count == 3) {
-				printLengthResult(result);
-				return;
+				return printLengthResult(result);
 			}
 			result.add(item);
 			count++;
-
 		}
+		return "";
 	}
 
-	public void getDuplicates(String text) {
+	public String getDuplicates(String text) {
 		Matcher m = p.matcher(text);
 		List<String> wordList = new ArrayList<>();
 		Set<String> result = new TreeSet<>(new Comparator<String>() {
@@ -152,8 +167,7 @@ public class Analyzer {
 			String key = m.group().toLowerCase();
 			
 			if (result.size() == 3) {
-				printDuplicatesResult(result);
-				return;
+				return printDuplicatesResult(result);
 			}
 			if (wordList.contains(key)) {
 				result.add(key);
@@ -161,5 +175,6 @@ public class Analyzer {
 				wordList.add(key);
 			}
 		}
+		return "";
 	}
 }
