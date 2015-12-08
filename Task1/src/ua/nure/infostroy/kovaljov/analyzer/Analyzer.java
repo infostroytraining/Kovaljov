@@ -25,7 +25,6 @@ public class Analyzer {
 	public static void main(String[] args) throws IOException {
 		getCommand();
 	}
-
 	private static void getCommand() throws IOException {
 		InputStreamReader sr =new InputStreamReader(System.in);
 		BufferedReader cnsl = new BufferedReader(sr);
@@ -36,7 +35,7 @@ public class Analyzer {
 				printHelp();
 			} else if (command.startsWith("-i")) {
 				try {
-					path = command.substring(2, command.length());
+					path = command.substring(3, command.length());
 				} catch (IndexOutOfBoundsException ex) {
 					command = "exit";
 					continue;
@@ -44,7 +43,7 @@ public class Analyzer {
 			}
 			else if (command.startsWith("--input")) {
 				try {
-					path = command.substring(7, command.length());
+					path = command.substring(8, command.length());
 				} catch (IndexOutOfBoundsException ex) {
 					command = "exit";
 					continue;
@@ -56,7 +55,7 @@ public class Analyzer {
 						command="exit";
 						continue;
 					}
-					Task.valueOf(command.substring(2, command.length())).performTask(path);
+					Task.valueOf(command.substring(3, command.length()).toUpperCase()).performTask(path);
 				} catch (IndexOutOfBoundsException | IOException ex) {
 					command = "exit";
 					continue;
@@ -68,7 +67,7 @@ public class Analyzer {
 						command="exit";
 						continue;
 					}
-					Task.valueOf(command.substring("--task".length(), command.length())).performTask(path);
+					Task.valueOf(command.substring("--task".length()+1, command.length()).toUpperCase()).performTask(path);
 				} catch (IndexOutOfBoundsException | IOException ex) {
 					command = "exit";
 					continue;
@@ -184,7 +183,7 @@ public class Analyzer {
 			count++;
 		}
 		long finish = System.currentTimeMillis();
-		System.out.println("Elapsed time of #GetLength:" + (finish - startTime));
+		System.out.println("Elapsed time of #getFrequency:" + (finish - startTime));
 		return printFrequencyResult(values);
 	}
 
@@ -233,7 +232,7 @@ public class Analyzer {
 
 			if (result.size() == 3) {
 				long finish = System.currentTimeMillis();
-				System.out.println("Elapsed time: " + (finish - startTime));
+				System.out.println("Elapsed time of #getDuplicates: " + (finish - startTime));
 				return printDuplicatesResult(result);
 			}
 			if (wordList.contains(key)) {
