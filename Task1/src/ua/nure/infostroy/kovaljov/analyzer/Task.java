@@ -2,38 +2,31 @@ package ua.nure.infostroy.kovaljov.analyzer;
 
 import java.io.IOException;
 
+import ua.nure.infostroy.kovaljov.command.Command;
+import ua.nure.infostroy.kovaljov.command.DuplicatesCommand;
+import ua.nure.infostroy.kovaljov.command.FrequencyCommand;
+import ua.nure.infostroy.kovaljov.command.LengthCommand;
+
 public enum Task {
-	FREQUENCY("frequency"),LENGTH("length"),DUPLICATES("duplicates");
+	FREQUENCY(new FrequencyCommand()),LENGTH(new LengthCommand()),DUPLICATES(new DuplicatesCommand());
 	
-	private String value;
+	private Command command;
 	
-	Task(String value) {
-		this.value = value;
+	Task(Command value) {
+		this.command = value;
 	}
 	
-	public String getValue() {
-		return value;
-	}
+	public static Task fromString(String code) {
+		 
+        for(Task output : Task.values()) {
+            if(output.toString().equalsIgnoreCase(code)) {
+                return output;
+            }
+        }
+        return null;
+    }
 	
 	public void performTask(String path) throws IOException {
-		Analyzer analyzer = new Analyzer();
-		IOHelper helper = new IOHelper();
-		String input = helper.readLargeTextFile(path);
-		switch(this.value) {
-		case "frequency":{
-			analyzer.getFrequency(input);
-			break;
-		}
-		case "length":{
-			analyzer.getLength(input);
-			break;
-		}
-		case "duplicates":{
-			analyzer.getDuplicates(input);
-			break;
-		}default:{
-			return;
-		}
-		}
+		command.execute(path);
 	}
 }

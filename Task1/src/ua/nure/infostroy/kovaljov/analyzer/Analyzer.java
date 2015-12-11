@@ -18,71 +18,24 @@ import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.beust.jcommander.JCommander;
+
+import ua.nure.infostroy.kovaljov.jcommander.JCommanderProvider;
+
 public class Analyzer {
 	private Pattern p = Pattern.compile("[A-Za-zА-Яа-я]+");
 	private static String path = "";
 
 	public static void main(String[] args) throws IOException {
-		getCommand();
-	}
-	private static void getCommand() throws IOException {
-		InputStreamReader sr =new InputStreamReader(System.in);
-		BufferedReader cnsl = new BufferedReader(sr);
-		String command = "";
-		while (!command.equals("exit")) {
-			command = cnsl.readLine();
-			if (command != null && command.equals("-- help")) {
-				printHelp();
-			} else if (command.startsWith("-i")) {
-				try {
-					path = command.substring(3, command.length());
-				} catch (IndexOutOfBoundsException ex) {
-					command = "exit";
-					continue;
-				}
-			}
-			else if (command.startsWith("--input")) {
-				try {
-					path = command.substring(8, command.length());
-				} catch (IndexOutOfBoundsException ex) {
-					command = "exit";
-					continue;
-				}
-			}
-			else if (command.startsWith("-t")) {
-				try {
-					if (path.length()<=1) {
-						command="exit";
-						continue;
-					}
-					Task.valueOf(command.substring(3, command.length()).toUpperCase()).performTask(path);
-				} catch (IndexOutOfBoundsException | IOException ex) {
-					command = "exit";
-					continue;
-				}
-			}
-			else if (command.startsWith("--task")) {
-				try {
-					if (path.length()<=1) {
-						command="exit";
-						continue;
-					}
-					Task.valueOf(command.substring("--task".length()+1, command.length()).toUpperCase()).performTask(path);
-				} catch (IndexOutOfBoundsException | IOException ex) {
-					command = "exit";
-					continue;
-				}
-			}
-		}
+		JCommanderProvider provider = new JCommanderProvider();
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		String[] argv = br.readLine().split(" ");
+		new JCommander(provider, argv);	
+		String path = provider.input;
+		provider.task.performTask(path);
 	}
 
-
-	private static void printHelp() {
-		System.out.println("1. -i (--input) - path to the input file "
-				+ "(e.g. C:\\Program Files\\Java\\input.txt). Type: String, Required: true");
-		System.out.println("2. -t (--task) – task to execute. "
-				+ "Type: Enum, Required: true, Permitted values: frequency, " + "length, duplicates");
-	}
+	
 
 	private Map<String, Integer> sortByComparator(Map<String, Integer> unsortedMap,
 			Comparator<Map.Entry<String, Integer>> comparator) {
