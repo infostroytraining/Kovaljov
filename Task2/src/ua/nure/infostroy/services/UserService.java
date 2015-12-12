@@ -65,9 +65,8 @@ public class UserService {
 			errors.add("email is empty");
 		}
 		UserDAO dao = new UserDAOImpl();
-		if (!errors.isEmpty()) {
-			System.out.println(email);
-			System.out.println(new MD5Encrypter().encryptIt(password));
+		
+		if (errors.isEmpty()) {
 			User user = dao.getUserByEmailAndPassword(email, new MD5Encrypter().encryptIt(password));
 			if (user !=null) {
 				wrapper.getRequest().getSession().setAttribute("user", user);
