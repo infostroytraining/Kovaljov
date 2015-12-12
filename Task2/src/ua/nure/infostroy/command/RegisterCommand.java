@@ -1,6 +1,7 @@
 package ua.nure.infostroy.command;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 
 import javax.servlet.ServletException;
 
@@ -31,7 +32,7 @@ public class RegisterCommand extends AbstractCommand implements Command {
 	public void excecute() {
 		try {
 			new UserService().registerUser(getHttpWrapper());
-		} catch (IOException | ServletException e) {
+		} catch (IOException | ServletException | NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
 	}

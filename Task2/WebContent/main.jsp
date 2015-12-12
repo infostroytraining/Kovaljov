@@ -9,6 +9,6 @@
 </head>
 <body>
 Hello <c:out value="${sessionScope.user.userName.concat(' ').concat( sessionScope.user.userSurname)}"/>
-<a href ="../logout">Logout</a>
+<a href ="app/logout">Logout</a>
 </body>
 </html>

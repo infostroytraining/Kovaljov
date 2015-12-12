@@ -1,6 +1,7 @@
 package ua.nure.infostroy.services;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,10 +12,11 @@ import ua.nure.infostroy.dao.UserDAO;
 import ua.nure.infostroy.dao.implimentation.UserDAOImpl;
 import ua.nure.infostroy.entity.HttpWrapper;
 import ua.nure.infostroy.entity.User;
+import ua.nure.infostroy.utils.MD5Encrypter;
 import ua.nure.infostroy.utils.Validator;
 
 public class UserService {
-	public void registerUser(HttpWrapper wrapper) throws IOException, ServletException {
+	public void registerUser(HttpWrapper wrapper) throws IOException, ServletException, NoSuchAlgorithmException {
 		List<String> errors = new ArrayList<>();
 		HttpServletRequest request = wrapper.getRequest();
 		Validator validator = new Validator();
@@ -40,18 +42,47 @@ public class UserService {
 		}
 		if (errors.isEmpty()) {
 			UserDAO dao = new UserDAOImpl();
-			User user = new User(-1, firstName, secondName, email, passwordConfirm, "");
+			User user = new User(-1, firstName, secondName, email, new MD5Encrypter().encryptIt(password), "");
 			dao.insert(user);
 			wrapper.getRequest().getSession().setAttribute("user", user);
 			wrapper.getRequest().getRequestDispatcher("/main.jsp").forward(wrapper.getRequest(), wrapper.getResponse());
 			return;
-		}
-		else{
-			System.out.println(errors);
+		} else {
+			wrapper.getRequest().getSession().setAttribute("errors", errors);
+			wrapper.getRequest().getRequestDispatcher("/index.jsp").forward(wrapper.getRequest(), wrapper.getResponse());
 		}
 	}
 
-	public void login(HttpWrapper wrapper) {
+	public void login(HttpWrapper wrapper) throws ServletException, IOException, NoSuchAlgorithmException {
+		List<String> errors = new ArrayList<>();
+		HttpServletRequest request = wrapper.getRequest();
+		String password = request.getParameter("password");
+		String email = request.getParameter("email");
+		if (password == null) {
+			errors.add("password is empty");
+		}
+		if (email == null) {
+			errors.add("email is empty");
+		}
+		UserDAO dao = new UserDAOImpl();
+		if (!errors.isEmpty()) {
+			System.out.println(email);
+			System.out.println(new MD5Encrypter().encryptIt(password));
+			User user = dao.getUserByEmailAndPassword(email, new MD5Encrypter().encryptIt(password));
+			if (user !=null) {
+				wrapper.getRequest().getSession().setAttribute("user", user);
+				wrapper.getRequest().getRequestDispatcher("/main.jsp").forward(wrapper.getRequest(), wrapper.getResponse());
+			}
+			else {
+				errors.add("No such user");
+				wrapper.getRequest().getSession().setAttribute("errors", errors);
+				wrapper.getRequest().getRequestDispatcher("/login.jsp").forward(wrapper.getRequest(), wrapper.getResponse());
+			}
+		}
+		else{
+			wrapper.getRequest().getSession().setAttribute("errors", errors);
+			wrapper.getRequest().getRequestDispatcher("/login.jsp").forward(wrapper.getRequest(), wrapper.getResponse());
+		}
 
 	}
 }
