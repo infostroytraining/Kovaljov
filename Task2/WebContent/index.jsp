@@ -19,7 +19,7 @@
 	<img src="kaptcha.jpg" /></br> <input type="text" name="kaptcha" value="" placeholder="enterKaptcha"/></br>
 	<input type = "submit" value ="Register"/>
 </form>
-<c:forEach items="${errors}" var="element">    
+<c:forEach items="${sessionScope.errors}" var="element">    
     <c:out value="${element}"/>
 </c:forEach>
 <a href ="login.jsp">Login</a>

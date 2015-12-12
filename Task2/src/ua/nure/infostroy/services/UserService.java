@@ -45,11 +45,11 @@ public class UserService {
 			User user = new User(-1, firstName, secondName, email, new MD5Encrypter().encryptIt(password), "");
 			dao.insert(user);
 			wrapper.getRequest().getSession().setAttribute("user", user);
-			wrapper.getRequest().getRequestDispatcher("/main.jsp").forward(wrapper.getRequest(), wrapper.getResponse());
+			wrapper.getResponse().sendRedirect("../main.jsp");
 			return;
 		} else {
 			wrapper.getRequest().getSession().setAttribute("errors", errors);
-			wrapper.getRequest().getRequestDispatcher("/index.jsp").forward(wrapper.getRequest(), wrapper.getResponse());
+			wrapper.getResponse().sendRedirect("../index.jsp");
 		}
 	}
 
@@ -70,17 +70,17 @@ public class UserService {
 			User user = dao.getUserByEmailAndPassword(email, new MD5Encrypter().encryptIt(password));
 			if (user !=null) {
 				wrapper.getRequest().getSession().setAttribute("user", user);
-				wrapper.getRequest().getRequestDispatcher("/main.jsp").forward(wrapper.getRequest(), wrapper.getResponse());
+				wrapper.getResponse().sendRedirect("../main.jsp");
 			}
 			else {
 				errors.add("No such user");
 				wrapper.getRequest().getSession().setAttribute("errors", errors);
-				wrapper.getRequest().getRequestDispatcher("/login.jsp").forward(wrapper.getRequest(), wrapper.getResponse());
+				wrapper.getResponse().sendRedirect("../login.jsp");
 			}
 		}
 		else{
 			wrapper.getRequest().getSession().setAttribute("errors", errors);
-			wrapper.getRequest().getRequestDispatcher("/login.jsp").forward(wrapper.getRequest(), wrapper.getResponse());
+			wrapper.getResponse().sendRedirect("../login.jsp");
 		}
 
 	}

@@ -8,7 +8,7 @@ public class LogoutCommand extends AbstractCommand implements Command{
 	public void excecute() {
 		getHttpWrapper().getRequest().getSession().invalidate();
 		try {
-			getHttpWrapper().getResponse().sendRedirect("../login.jsp");
+			getHttpWrapper().getResponse().sendRedirect(getHttpWrapper().getRequest().getContextPath().replace("/", "") +"/login.jsp");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

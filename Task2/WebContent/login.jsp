@@ -14,7 +14,7 @@
 	<input type = "password" name ="password" placeholder="Enter password"/><br/>
 	<input type = "submit" value ="Login"/>
 </form>
-<c:forEach items="${errors}" var="element">    
+<c:forEach items="${sessionScope.errors}" var="element">    
     <c:out value="${element}"/>
 </c:forEach>
 </body>
