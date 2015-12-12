@@ -5,19 +5,30 @@ import ua.nure.infostroy.dao.implimentation.UserDAOImpl;
 import ua.nure.infostroy.entity.HttpWrapper;
 import ua.nure.infostroy.entity.User;
 
-public class RegisterCommand implements Command{
+public class RegisterCommand extends AbstractCommand implements Command {
 	private UserDAO dao = new UserDAOImpl();
 	private User user;
-	private HttpWrapper httpHandler;
-	
+
+	public RegisterCommand() {
+	}
+
+	public RegisterCommand(HttpWrapper http) {
+		super.setHttpWrapper(http);
+	}
+
+	public RegisterCommand(User user) {
+		this.user = user;
+	}
+
 	public RegisterCommand(HttpWrapper httpHandler, User user) {
 		this.user = user;
-		this.httpHandler = httpHandler;
+		super.setHttpWrapper(httpHandler);
 	}
-	
+
 	@Override
 	public void excecute() {
 		dao.insert(user);
 	}
+
 
 }
