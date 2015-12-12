@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import ua.nure.infostroy.command.URLCommand;
+import ua.nure.infostroy.entity.HttpWrapper;
+
 @WebServlet("/app/*")
 public class MainServlet extends HttpServlet {
 	@Override
@@ -16,6 +19,8 @@ public class MainServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		HttpWrapper wrapper = new HttpWrapper(request, response);
+		URLCommand.getCommand(request.getContextPath(), wrapper).excecute();
 	}
 
 }
