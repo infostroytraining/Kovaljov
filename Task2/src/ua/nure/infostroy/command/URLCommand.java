@@ -13,6 +13,10 @@ public class URLCommand {
 	}
 	public static Command getCommand(String url, HttpWrapper http) {
 		AbstractCommand command = (AbstractCommand) URL_TO_COMMAND.get(url);
+		System.out.println(url);
+		if (command == null){
+			return new DoNothing();
+		}
 		command.setHttpWrapper(http);
 		return command;
 	}

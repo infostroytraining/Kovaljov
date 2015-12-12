@@ -10,8 +10,14 @@
 <title>Insert title here</title>
 </head>
 <body>
-<form action="app/login">
-    <mytag:kaptcha/>
+<form action="app/register" method ="Post">
+	<input type = "email" name ="email" placeholder="Enter email"/><br/>
+	<input type = "text" name ="firstName" placeholder="First name"/><br/>
+	<input type = "text" name ="surname" placeholder="First name"/><br/>
+	<input type = "password" name ="password" placeholder="Enter password"/><br/>
+	<input type = "password" name ="passwordConfirm" placeholder="Confirm password"/><br/>
+	<img src="kaptcha.jpg" /></br> <input type="text" name="kaptcha" value="" placeholder="enterKaptcha"/></br>
+	<input type = "submit" value ="Register"/>
 </form>
 </body>
 </html>

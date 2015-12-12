@@ -20,7 +20,7 @@ public class MainServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		HttpWrapper wrapper = new HttpWrapper(request, response);
-		URLCommand.getCommand(request.getContextPath(), wrapper).excecute();
+		URLCommand.getCommand(request.getRequestURI().substring(request.getContextPath().length()), wrapper).excecute();
 	}
 
 }

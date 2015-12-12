@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
 import ua.nure.infostroy.dao.UserDAO;
@@ -13,7 +14,7 @@ import ua.nure.infostroy.entity.User;
 import ua.nure.infostroy.utils.Validator;
 
 public class UserService {
-	public void registerUser(HttpWrapper wrapper) throws IOException {
+	public void registerUser(HttpWrapper wrapper) throws IOException, ServletException {
 		List<String> errors = new ArrayList<>();
 		HttpServletRequest request = wrapper.getRequest();
 		Validator validator = new Validator();
@@ -41,8 +42,12 @@ public class UserService {
 			UserDAO dao = new UserDAOImpl();
 			User user = new User(-1, firstName, secondName, email, passwordConfirm, "");
 			dao.insert(user);
-			wrapper.getRequest().setAttribute("user", user);
+			wrapper.getRequest().getSession().setAttribute("user", user);
+			wrapper.getRequest().getRequestDispatcher("/main.jsp").forward(wrapper.getRequest(), wrapper.getResponse());
 			return;
+		}
+		else{
+			System.out.println(errors);
 		}
 	}
 

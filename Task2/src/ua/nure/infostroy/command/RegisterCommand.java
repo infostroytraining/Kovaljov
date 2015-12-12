@@ -1,5 +1,9 @@
 package ua.nure.infostroy.command;
 
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+
 import ua.nure.infostroy.entity.HttpWrapper;
 import ua.nure.infostroy.entity.User;
 import ua.nure.infostroy.services.UserService;
@@ -25,7 +29,11 @@ public class RegisterCommand extends AbstractCommand implements Command {
 
 	@Override
 	public void excecute() {
-		new UserService().login(getHttpWrapper());
+		try {
+			new UserService().registerUser(getHttpWrapper());
+		} catch (IOException | ServletException e) {
+			e.printStackTrace();
+		}
 	}
 
 
