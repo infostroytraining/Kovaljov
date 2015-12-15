@@ -5,6 +5,7 @@ import java.security.NoSuchAlgorithmException;
 
 import javax.servlet.ServletException;
 
+import ua.nure.infostroy.dao.exceptions.DAOException;
 import ua.nure.infostroy.entity.HttpWrapper;
 import ua.nure.infostroy.entity.User;
 import ua.nure.infostroy.services.UserService;
@@ -32,7 +33,7 @@ public class RegisterCommand extends AbstractCommand implements Command {
 	public void excecute() {
 		try {
 			new UserService().registerUser(getHttpWrapper());
-		} catch (IOException | ServletException | NoSuchAlgorithmException e) {
+		} catch (IOException | ServletException | NoSuchAlgorithmException | DAOException e) {
 			e.printStackTrace();
 		}
 	}

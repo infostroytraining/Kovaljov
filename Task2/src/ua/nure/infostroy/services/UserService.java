@@ -9,6 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
 import ua.nure.infostroy.dao.UserDAO;
+import ua.nure.infostroy.dao.exceptions.DAOException;
 import ua.nure.infostroy.dao.memory.UserDAOImpl;
 import ua.nure.infostroy.entity.HttpWrapper;
 import ua.nure.infostroy.entity.User;
@@ -16,7 +17,7 @@ import ua.nure.infostroy.utils.MD5Encrypter;
 import ua.nure.infostroy.utils.Validator;
 
 public class UserService {
-	public void registerUser(HttpWrapper wrapper) throws IOException, ServletException, NoSuchAlgorithmException {
+	public void registerUser(HttpWrapper wrapper) throws IOException, ServletException, NoSuchAlgorithmException, DAOException {
 		List<String> errors = new ArrayList<>();
 		HttpServletRequest request = wrapper.getRequest();
 		Validator validator = new Validator();

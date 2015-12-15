@@ -3,15 +3,15 @@ package ua.nure.infostroy.entity;
 public class User {
 	private long userId;
 
-	private String userName;
+	private String userName = "";
 
-	private String userSurname;
+	private String userSurname = "";
 
-	private String email;
+	private String email = "";
 
-	private String password;
+	private String password = "";
 
-	private String pathToAvatar;
+	private String pathToAvatar = "";
 
 	public User() {
 	}
