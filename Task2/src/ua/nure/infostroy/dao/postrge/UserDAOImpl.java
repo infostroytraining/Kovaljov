@@ -106,20 +106,119 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public boolean update(User object) {
-		return false;
+	public boolean update(User object) throws DAOException {
+		Connection con = null;
+		boolean updateResult = false;
+		try {
+			con = PostgreDAOFactory.getConnection();
+			updateResult = updateUser(con, object);
+			if (updateResult) {
+				con.commit();
+			} else {
+				PostgreDAOFactory.rollback(con);
+			}
+		} catch (SQLException e) {
+			PostgreDAOFactory.rollback(con);
+			log.error("Can not update user.", e);
+		} finally {
+			PostgreDAOFactory.close(con);
+		}
+		return updateResult;
+	}
+
+	private boolean updateUser(Connection con, User object) throws SQLException {
+		boolean result;
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = con.prepareStatement(Query.UPDATE_USER);
+			pstmt.setString(1, object.getUserName());
+			pstmt.setString(2, object.getUserSurname());
+			pstmt.setString(3, object.getEmail());
+			pstmt.setString(4, object.getPassword());
+			pstmt.setLong(5, object.getUserId());
+			int updatedRows = pstmt.executeUpdate();
+			result = updatedRows == 1;
+		} catch (SQLException e) {
+			throw e;
+		} finally {
+			PostgreDAOFactory.closeStatement(pstmt);
+		}
+		return result;
 	}
 
 	@Override
-	public boolean delete(long objectId) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean delete(long objectId) throws DAOException {
+		boolean result = false;
+		Connection con = null;
+		try {
+			con = PostgreDAOFactory.getConnection();
+			result = deleteUser(con, objectId);
+		} catch (SQLException e) {
+			log.error("Can not delete holiday.", e);
+			PostgreDAOFactory.rollback(con);
+		} finally {
+			PostgreDAOFactory.commitAndClose(con);
+		}
+		return result;
+	}
+
+	private boolean deleteUser(Connection con, long objectId) throws SQLException {
+		boolean result;
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = con.prepareStatement(Query.DELETE_USER);
+			pstmt.setLong(1, objectId);
+			result = pstmt.executeUpdate() == 1;
+		} catch (SQLException e) {
+			throw e;
+		} finally {
+			PostgreDAOFactory.closeStatement(pstmt);
+		}
+		return result;
 	}
 
 	@Override
 	public User getUserByEmailAndPassword(String email, String password) {
-		// TODO Auto-generated method stub
-		return null;
+		Connection con = null;
+		User user = null;
+		try {
+			con = PostgreDAOFactory.getConnection();
+			user = getUserByEmailAndPassword(con, email,password);
+		} catch (SQLException e) {
+			log.error("Can not get user.", e);
+		} finally {
+			PostgreDAOFactory.close(con);
+		}
+		return user;
+	}
+
+	private User getUserByEmailAndPassword(Connection con, String email, String password) throws SQLException {
+		PreparedStatement pstmt = null;
+		User user = new User();
+		try {
+			pstmt = con.prepareStatement(Query.GET_USER_BY_EMAIL_PASSWORD);
+			pstmt.setString(1,email);
+			pstmt.setString(2, password);
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next()) {
+				user.setUserId(rs.getLong(1));
+				user.setUserName(rs.getString(2));
+				user.setUserSurname(rs.getString(3));
+				user.setEmail(rs.getString(4));
+				user.setPassword(rs.getString(5));
+			}
+			return user;
+		} catch (SQLException e) {
+			throw e;
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					log.error("Can not close statement.", e);
+				}
+			}
+		}
 	}
 
 }

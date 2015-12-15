@@ -7,8 +7,8 @@ public interface CRUD<T> {
 	
 	T get(long objectId);
 	
-	boolean update(T object);
+	boolean update(T object) throws DAOException;
 	
-	boolean delete(long objectId);
+	boolean delete(long objectId) throws DAOException;
 	
 }

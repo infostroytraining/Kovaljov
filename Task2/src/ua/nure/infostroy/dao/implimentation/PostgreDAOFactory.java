@@ -80,7 +80,7 @@ public class PostgreDAOFactory extends DAOFactory {
 		}
 	}
 
-	static void commitAndClose(Connection con) {
+	public static void commitAndClose(Connection con) {
 		commit(con);
 		close(con);
 	}
