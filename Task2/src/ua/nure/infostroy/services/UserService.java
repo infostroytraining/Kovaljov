@@ -9,7 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
 import ua.nure.infostroy.dao.UserDAO;
-import ua.nure.infostroy.dao.implimentation.UserDAOImpl;
+import ua.nure.infostroy.dao.memory.UserDAOImpl;
 import ua.nure.infostroy.entity.HttpWrapper;
 import ua.nure.infostroy.entity.User;
 import ua.nure.infostroy.utils.MD5Encrypter;

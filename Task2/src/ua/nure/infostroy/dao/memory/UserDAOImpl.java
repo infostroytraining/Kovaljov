@@ -1,4 +1,4 @@
-package ua.nure.infostroy.dao.implimentation;
+package ua.nure.infostroy.dao.memory;
 
 import java.util.Set;
 

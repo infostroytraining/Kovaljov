@@ -6,7 +6,7 @@ import java.security.NoSuchAlgorithmException;
 import javax.servlet.ServletException;
 
 import ua.nure.infostroy.dao.UserDAO;
-import ua.nure.infostroy.dao.implimentation.UserDAOImpl;
+import ua.nure.infostroy.dao.memory.UserDAOImpl;
 import ua.nure.infostroy.entity.HttpWrapper;
 import ua.nure.infostroy.services.UserService;
 
