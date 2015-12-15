@@ -64,13 +64,49 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public User get(long objectId) {
-		// TODO Auto-generated method stub
-		return null;
+		Connection con = null;
+		User user = null;
+		try {
+			con = PostgreDAOFactory.getConnection();
+			user = getUser(con, objectId);
+		} catch (SQLException e) {
+			log.error("Can not get user.", e);
+		} finally {
+			PostgreDAOFactory.close(con);
+		}
+		return user;
+	}
+
+	private User getUser(Connection con, long objectId) throws SQLException {
+		PreparedStatement pstmt = null;
+		User user = new User();
+		try {
+			pstmt = con.prepareStatement(Query.GET_USER_BY_ID);
+			pstmt.setLong(1, objectId);
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next()) {
+				user.setUserId(rs.getLong(1));
+				user.setUserName(rs.getString(2));
+				user.setUserSurname(rs.getString(3));
+				user.setEmail(rs.getString(4));
+				user.setPassword(rs.getString(5));
+			}
+			return user;
+		} catch (SQLException e) {
+			throw e;
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					log.error("Can not close statement.", e);
+				}
+			}
+		}
 	}
 
 	@Override
 	public boolean update(User object) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
