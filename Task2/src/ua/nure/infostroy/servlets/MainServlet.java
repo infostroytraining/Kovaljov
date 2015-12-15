@@ -7,11 +7,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 import ua.nure.infostroy.command.URLCommand;
 import ua.nure.infostroy.entity.HttpWrapper;
 
 @WebServlet("/app/*")
 public class MainServlet extends HttpServlet {
+	
+	private Logger log = Logger.getLogger(MainServlet.class);
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		doPost(req,resp);
@@ -21,6 +25,7 @@ public class MainServlet extends HttpServlet {
 			throws ServletException, IOException {
 		HttpWrapper wrapper = new HttpWrapper(request, response);
 		URLCommand.getCommand(request.getRequestURI().substring(request.getContextPath().length()), wrapper).excecute();
+		log.info("Request has been received by url: " + request.getPathInfo());
 	}
 
 }

@@ -8,15 +8,18 @@ import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.Logger;
+
 import ua.nure.infostroy.dao.UserDAO;
 import ua.nure.infostroy.dao.exceptions.DAOException;
-import ua.nure.infostroy.dao.memory.UserDAOImpl;
+import ua.nure.infostroy.dao.implimentation.DAOFactory;
 import ua.nure.infostroy.entity.HttpWrapper;
 import ua.nure.infostroy.entity.User;
 import ua.nure.infostroy.utils.MD5Encrypter;
 import ua.nure.infostroy.utils.Validator;
 
 public class UserService {
+	private Logger log = Logger.getLogger(UserService.class);
 	public void registerUser(HttpWrapper wrapper) throws IOException, ServletException, NoSuchAlgorithmException, DAOException {
 		List<String> errors = new ArrayList<>();
 		HttpServletRequest request = wrapper.getRequest();
@@ -42,9 +45,10 @@ public class UserService {
 			errors.add("User name is invalid");
 		}
 		if (errors.isEmpty()) {
-			UserDAO dao = new UserDAOImpl();
+			UserDAO dao = DAOFactory.getDAOFactory(2).getUserDAO();
 			User user = new User(-1, firstName, secondName, email, new MD5Encrypter().encryptIt(password), "");
-			dao.insert(user);
+			user = dao.insert(user);
+			log.info("User " + user.getUserSurname() + " has been successfuly registered");
 			wrapper.getRequest().getSession().setAttribute("user", user);
 			wrapper.getResponse().sendRedirect("../main.jsp");
 			return;
@@ -65,11 +69,12 @@ public class UserService {
 		if (email == null) {
 			errors.add("email is empty");
 		}
-		UserDAO dao = new UserDAOImpl();
+		UserDAO dao = DAOFactory.getDAOFactory(2).getUserDAO();
 		
 		if (errors.isEmpty()) {
 			User user = dao.getUserByEmailAndPassword(email, new MD5Encrypter().encryptIt(password));
 			if (user !=null) {
+				log.info("User " + user.getUserSurname() + "has been entered to the system");
 				wrapper.getRequest().getSession().setAttribute("user", user);
 				wrapper.getResponse().sendRedirect("../main.jsp");
 			}
