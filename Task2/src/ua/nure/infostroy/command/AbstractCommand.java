@@ -14,5 +14,4 @@ public abstract class AbstractCommand implements Command{
 		this.httpWrapper = httpWrapper;
 	}
 	
-	
 }

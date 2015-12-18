@@ -1,14 +1,13 @@
 package ua.nure.infostroy.kovaljov.test;
 
-import static org.junit.Assert.assertTrue;
+import org.junit.Test;
+import ua.nure.infostroy.kovaljov.introduction.TextUtils;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.junit.Test;
-
-import ua.nure.infostroy.kovaljov.introduction.TextUtils;
+import static org.junit.Assert.assertTrue;
 
 public class TextUtilsTest {
 

@@ -1,43 +1,15 @@
 package ua.nure.infostroy.kovaljov.analyzer;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.beust.jcommander.JCommander;
-
-import ua.nure.infostroy.kovaljov.jcommander.JCommanderProvider;
-
-public class Analyzer {
+public class Analyzer implements Analyzable{
 	private Pattern p = Pattern.compile("[A-Za-zА-Яа-я]+");
-	private static String path = "";
 
-	public static void main(String[] args) throws IOException {
-		JCommanderProvider provider = new JCommanderProvider();
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		String[] argv = br.readLine().split(" ");
-		new JCommander(provider, argv);	
-		String path = provider.input;
-		provider.task.performTask(path);
-	}
-
-	
-
-	private Map<String, Integer> sortByComparator(Map<String, Integer> unsortedMap,
+	public static Map<String, Integer> sortByComparator(Map<String, Integer> unsortedMap,
 			Comparator<Map.Entry<String, Integer>> comparator) {
 
 		List<Map.Entry<String, Integer>> list = new LinkedList<Map.Entry<String, Integer>>(unsortedMap.entrySet());
@@ -50,7 +22,7 @@ public class Analyzer {
 		return sortedMap;
 	}
 
-	private Comparator<Map.Entry<String, Integer>> getFrequencyComparator() {
+	public static Comparator<Map.Entry<String, Integer>> getFrequencyComparator() {
 		return new Comparator<Map.Entry<String, Integer>>() {
 			public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
 				return (o2.getValue()).compareTo(o1.getValue());
@@ -58,7 +30,7 @@ public class Analyzer {
 		};
 	}
 
-	private Comparator<Entry<String, Integer>> getAlphabeticalComparator() {
+	public static Comparator<Entry<String, Integer>> getAlphabeticalComparator() {
 		return new Comparator<Entry<String, Integer>>() {
 
 			@Override
@@ -69,7 +41,7 @@ public class Analyzer {
 		};
 	}
 
-	private Comparator<String> getLengthComparator() {
+	public static Comparator<String> getLengthComparator() {
 		return new Comparator<String>() {
 
 			@Override
@@ -79,7 +51,7 @@ public class Analyzer {
 		};
 	}
 
-	private String printFrequencyResult(Set<Entry<String, Integer>> collection) {
+	public static String printFrequencyResult(Set<Entry<String, Integer>> collection) {
 		StringBuilder sb = new StringBuilder();
 		for (Entry<String, Integer> entry : collection) {
 			System.out.println(entry.getKey() + " ==> " + entry.getValue());
@@ -91,7 +63,7 @@ public class Analyzer {
 		return sb.toString();
 	}
 
-	private String printLengthResult(List<String> result) {
+	public static String printLengthResult(List<String> result) {
 		StringBuilder sb = new StringBuilder();
 		for (String item : result) {
 			System.out.println(item + " ==> " + item.length());
@@ -112,8 +84,18 @@ public class Analyzer {
 		System.out.println(sb.toString());
 		return sb.toString();
 	}
-
-	public String getFrequency(String text) {
+	private String getText(String path) throws IOException{
+		String text;
+		text = new IOHelper().readLargeTextFile(path);
+		return text;
+	}
+	public String getFrequency(String path) {
+		String text = "";
+		try {
+			text = getText(path);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		long startTime = System.currentTimeMillis();
 		Matcher m = p.matcher(text);
 		Map<String, Integer> wordToFrequency = new TreeMap<String, Integer>();
@@ -140,7 +122,13 @@ public class Analyzer {
 		return printFrequencyResult(values);
 	}
 
-	public String getLength(String text) {
+	public String getLength(String path) {
+		String text = "";
+		try {
+			text = getText(path);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		long startTime = System.currentTimeMillis();
 		Set<String> wordSet = new TreeSet<String>(getLengthComparator());
 		Matcher m = p.matcher(text);
@@ -162,7 +150,13 @@ public class Analyzer {
 		return "";
 	}
 
-	public String getDuplicates(String text) {
+	public String getDuplicates(String path) {
+		String text = "";
+		try {
+			text = getText(path);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		long startTime = System.currentTimeMillis();
 		Matcher m = p.matcher(text);
 		List<String> wordList = new ArrayList<>();

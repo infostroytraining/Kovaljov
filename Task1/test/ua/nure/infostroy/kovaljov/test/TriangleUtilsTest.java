@@ -1,6 +1,7 @@
 package ua.nure.infostroy.kovaljov.test;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.Test;
+import ua.nure.infostroy.kovaljov.introduction.TriangleUtils;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -8,9 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.junit.Test;
-
-import ua.nure.infostroy.kovaljov.introduction.TriangleUtils;
+import static org.junit.Assert.assertEquals;
 
 public class TriangleUtilsTest {
 

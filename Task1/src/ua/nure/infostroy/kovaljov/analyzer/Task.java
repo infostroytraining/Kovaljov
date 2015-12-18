@@ -1,11 +1,12 @@
 package ua.nure.infostroy.kovaljov.analyzer;
 
-import java.io.IOException;
-
+import ua.nure.infostroy.kovaljov.analyzer.factory.AnalyzerFactory;
 import ua.nure.infostroy.kovaljov.command.Command;
 import ua.nure.infostroy.kovaljov.command.DuplicatesCommand;
 import ua.nure.infostroy.kovaljov.command.FrequencyCommand;
 import ua.nure.infostroy.kovaljov.command.LengthCommand;
+
+import java.io.IOException;
 
 public enum Task {
 	FREQUENCY(new FrequencyCommand()),LENGTH(new LengthCommand()),DUPLICATES(new DuplicatesCommand());
@@ -26,7 +27,7 @@ public enum Task {
         return null;
     }
 	
-	public void performTask(String path) throws IOException {
-		command.execute(path);
+	public void performTask(String path, boolean isParallel) throws IOException {
+		command.execute(path,new AnalyzerFactory().getAnalyzer(isParallel? "stream":""));
 	}
 }

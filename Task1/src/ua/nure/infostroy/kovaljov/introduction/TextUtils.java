@@ -1,7 +1,5 @@
 package ua.nure.infostroy.kovaljov.introduction;
 
-import static org.junit.Assert.assertEquals;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;

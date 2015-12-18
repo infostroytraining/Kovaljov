@@ -2,7 +2,6 @@ package ua.nure.infostroy.kovaljov.jcommander;
 
 import com.beust.jcommander.IStringConverter;
 import com.beust.jcommander.ParameterException;
-
 import ua.nure.infostroy.kovaljov.analyzer.Task;
 
 public class TaskConverter implements IStringConverter<Task>{

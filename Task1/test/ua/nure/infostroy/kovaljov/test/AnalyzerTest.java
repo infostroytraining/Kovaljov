@@ -1,10 +1,9 @@
 package ua.nure.infostroy.kovaljov.test;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
-
 import ua.nure.infostroy.kovaljov.analyzer.Analyzer;
+
+import static org.junit.Assert.*;
 
 public class AnalyzerTest {
 

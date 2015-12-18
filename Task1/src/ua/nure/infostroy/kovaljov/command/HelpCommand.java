@@ -1,9 +1,11 @@
 package ua.nure.infostroy.kovaljov.command;
 
+import ua.nure.infostroy.kovaljov.analyzer.Analyzable;
+
 public class HelpCommand implements Command {
 
 	@Override
-	public void execute(String path) {
+	public void execute(String path, Analyzable analyzer) {
 		printHelp();
 	}
 	private static void printHelp() {
