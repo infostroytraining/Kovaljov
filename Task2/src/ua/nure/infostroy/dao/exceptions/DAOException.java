@@ -1,6 +1,7 @@
 package ua.nure.infostroy.dao.exceptions;
 
 public class DAOException extends Throwable{
+	private static final long serialVersionUID = 1L;
 	Throwable caught;
 	String message;
 

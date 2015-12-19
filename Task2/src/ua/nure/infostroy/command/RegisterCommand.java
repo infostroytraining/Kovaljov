@@ -5,6 +5,8 @@ import java.security.NoSuchAlgorithmException;
 
 import javax.servlet.ServletException;
 
+import org.apache.log4j.Logger;
+
 import ua.nure.infostroy.dao.exceptions.DAOException;
 import ua.nure.infostroy.entity.HttpWrapper;
 import ua.nure.infostroy.entity.User;
@@ -12,7 +14,7 @@ import ua.nure.infostroy.services.UserService;
 
 public class RegisterCommand extends AbstractCommand implements Command {
 	private User user;
-
+	private Logger log = Logger.getLogger(RegisterCommand.class);
 	public RegisterCommand() {
 	}
 
@@ -34,7 +36,7 @@ public class RegisterCommand extends AbstractCommand implements Command {
 		try {
 			new UserService().registerUser(getHttpWrapper());
 		} catch (IOException | ServletException | NoSuchAlgorithmException | DAOException e) {
-			e.printStackTrace();
+			log.error(e.getMessage());
 		}
 	}
 

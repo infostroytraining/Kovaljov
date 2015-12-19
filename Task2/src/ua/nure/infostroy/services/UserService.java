@@ -58,7 +58,7 @@ public class UserService {
 		}
 	}
 
-	public void login(HttpWrapper wrapper) throws ServletException, IOException, NoSuchAlgorithmException {
+	public void login(HttpWrapper wrapper) throws ServletException, IOException, NoSuchAlgorithmException, DAOException {
 		List<String> errors = new ArrayList<>();
 		HttpServletRequest request = wrapper.getRequest();
 		String password = request.getParameter("password");
@@ -69,7 +69,7 @@ public class UserService {
 		if (email == null) {
 			errors.add("email is empty");
 		}
-		UserDAO dao = DAOFactory.getDAOFactory(2).getUserDAO();
+		UserDAO dao = DAOFactory.getDAOFactory(DAOFactory.POSTRGE).getUserDAO();
 		
 		if (errors.isEmpty()) {
 			User user = dao.getUserByEmailAndPassword(email, new MD5Encrypter().encryptIt(password));

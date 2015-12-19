@@ -24,16 +24,9 @@ public class UserDAOImpl implements UserDAO {
 		try {
 			con = PostgreDAOFactory.getConnection();
 			result = insertUser(con, user);
-			if (result != null) {
-				con.commit();
-			} else {
-				PostgreDAOFactory.rollback(con);
-			}
 		} catch (SQLException e) {
-			PostgreDAOFactory.rollback(con);
 			log.error("Can not insert user.", e);
-		} finally {
-			PostgreDAOFactory.close(con);
+			throw new DAOException(e);
 		}
 		return result;
 	}
@@ -63,7 +56,7 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public User get(long objectId) {
+	public User get(long objectId) throws DAOException {
 		Connection con = null;
 		User user = null;
 		try {
@@ -71,8 +64,7 @@ public class UserDAOImpl implements UserDAO {
 			user = getUser(con, objectId);
 		} catch (SQLException e) {
 			log.error("Can not get user.", e);
-		} finally {
-			PostgreDAOFactory.close(con);
+			throw new DAOException(e);
 		}
 		return user;
 	}
@@ -112,16 +104,9 @@ public class UserDAOImpl implements UserDAO {
 		try {
 			con = PostgreDAOFactory.getConnection();
 			updateResult = updateUser(con, object);
-			if (updateResult) {
-				con.commit();
-			} else {
-				PostgreDAOFactory.rollback(con);
-			}
 		} catch (SQLException e) {
-			PostgreDAOFactory.rollback(con);
 			log.error("Can not update user.", e);
-		} finally {
-			PostgreDAOFactory.close(con);
+			throw new DAOException(e);
 		}
 		return updateResult;
 	}
@@ -155,9 +140,7 @@ public class UserDAOImpl implements UserDAO {
 			result = deleteUser(con, objectId);
 		} catch (SQLException e) {
 			log.error("Can not delete holiday.", e);
-			PostgreDAOFactory.rollback(con);
-		} finally {
-			PostgreDAOFactory.commitAndClose(con);
+			throw new DAOException(e);
 		}
 		return result;
 	}
@@ -178,7 +161,7 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public User getUserByEmailAndPassword(String email, String password) {
+	public User getUserByEmailAndPassword(String email, String password) throws DAOException {
 		Connection con = null;
 		User user = null;
 		try {
@@ -186,8 +169,7 @@ public class UserDAOImpl implements UserDAO {
 			user = getUserByEmailAndPassword(con, email,password);
 		} catch (SQLException e) {
 			log.error("Can not get user.", e);
-		} finally {
-			PostgreDAOFactory.close(con);
+			throw new DAOException(e);
 		}
 		return user;
 	}

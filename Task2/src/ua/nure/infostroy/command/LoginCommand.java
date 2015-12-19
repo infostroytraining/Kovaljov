@@ -5,12 +5,16 @@ import java.security.NoSuchAlgorithmException;
 
 import javax.servlet.ServletException;
 
+import org.apache.log4j.Logger;
+
 import ua.nure.infostroy.dao.UserDAO;
+import ua.nure.infostroy.dao.exceptions.DAOException;
 import ua.nure.infostroy.dao.memory.UserDAOImpl;
 import ua.nure.infostroy.entity.HttpWrapper;
 import ua.nure.infostroy.services.UserService;
 
 public class LoginCommand extends AbstractCommand implements Command {
+	private Logger log = Logger.getLogger(LoginCommand.class);
 	private UserDAO dao = new UserDAOImpl();
 	private String login;
 	private String password;
@@ -37,8 +41,8 @@ public class LoginCommand extends AbstractCommand implements Command {
 	public void excecute() {
 		try {
 			new UserService().login(getHttpWrapper());
-		} catch (ServletException | IOException | NoSuchAlgorithmException e) {
-			e.printStackTrace();
+		} catch (ServletException | IOException | NoSuchAlgorithmException | DAOException e) {
+			log.error(e.getMessage());
 		}
 	}
 
