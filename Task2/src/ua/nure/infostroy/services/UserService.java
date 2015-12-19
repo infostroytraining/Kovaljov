@@ -20,7 +20,10 @@ import ua.nure.infostroy.utils.Validator;
 
 public class UserService {
 	private Logger log = Logger.getLogger(UserService.class);
-	public void registerUser(HttpWrapper wrapper) throws IOException, ServletException, NoSuchAlgorithmException, DAOException {
+	private TransactionService transactionService;
+
+	public void registerUser(HttpWrapper wrapper)
+			throws IOException, ServletException, NoSuchAlgorithmException, DAOException {
 		List<String> errors = new ArrayList<>();
 		HttpServletRequest request = wrapper.getRequest();
 		Validator validator = new Validator();
@@ -45,9 +48,9 @@ public class UserService {
 			errors.add("User name is invalid");
 		}
 		if (errors.isEmpty()) {
-			UserDAO dao = DAOFactory.getDAOFactory(2).getUserDAO();
-			User user = new User(-1, firstName, secondName, email, new MD5Encrypter().encryptIt(password), "");
-			user = dao.insert(user);
+			UserDAO dao = DAOFactory.getDAOFactory(DAOFactory.POSTRGE).getUserDAO();
+			final User user = new User(-1, firstName, secondName, email, new MD5Encrypter().encryptIt(password), "");
+			transactionService.doTask(() -> dao.insert(user), 1, DAOFactory.getDAOFactory(DAOFactory.POSTRGE));
 			log.info("User " + user.getUserSurname() + " has been successfuly registered");
 			wrapper.getRequest().getSession().setAttribute("user", user);
 			wrapper.getResponse().sendRedirect("../main.jsp");
@@ -58,7 +61,8 @@ public class UserService {
 		}
 	}
 
-	public void login(HttpWrapper wrapper) throws ServletException, IOException, NoSuchAlgorithmException, DAOException {
+	public void login(HttpWrapper wrapper)
+			throws ServletException, IOException, NoSuchAlgorithmException, DAOException {
 		List<String> errors = new ArrayList<>();
 		HttpServletRequest request = wrapper.getRequest();
 		String password = request.getParameter("password");
@@ -70,21 +74,20 @@ public class UserService {
 			errors.add("email is empty");
 		}
 		UserDAO dao = DAOFactory.getDAOFactory(DAOFactory.POSTRGE).getUserDAO();
-		
+
 		if (errors.isEmpty()) {
-			User user = dao.getUserByEmailAndPassword(email, new MD5Encrypter().encryptIt(password));
-			if (user !=null) {
+			User user = transactionService.doTask(() -> dao.getUserByEmailAndPassword(email, password), 1,
+					DAOFactory.getDAOFactory(DAOFactory.POSTRGE));
+			if (user != null) {
 				log.info("User " + user.getUserSurname() + "has been entered to the system");
 				wrapper.getRequest().getSession().setAttribute("user", user);
 				wrapper.getResponse().sendRedirect("../main.jsp");
-			}
-			else {
+			} else {
 				errors.add("No such user");
 				wrapper.getRequest().getSession().setAttribute("errors", errors);
 				wrapper.getResponse().sendRedirect("../login.jsp");
 			}
-		}
-		else{
+		} else {
 			wrapper.getRequest().getSession().setAttribute("errors", errors);
 			wrapper.getResponse().sendRedirect("../login.jsp");
 		}
