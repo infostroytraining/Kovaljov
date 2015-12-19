@@ -15,6 +15,9 @@ public class Main {
 		new JCommander(provider, argv);
 		String path = provider.input;
 		boolean isParallel = provider.parallel;
+		long start = System.currentTimeMillis();
 		provider.task.performTask(path, isParallel);
+		long finish = System.currentTimeMillis();
+		System.out.print("elapsed time "+ (finish-start));
 	}
 }
