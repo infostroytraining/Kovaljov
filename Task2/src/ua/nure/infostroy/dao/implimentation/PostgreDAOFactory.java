@@ -5,7 +5,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import ua.nure.infostroy.dao.UserDAO;
 import ua.nure.infostroy.dao.exceptions.DAOException;
@@ -15,8 +16,7 @@ public class PostgreDAOFactory extends DAOFactory {
 	public static final String DRIVER = "org.postgresql.Driver";
 	public static final String DBURL = "jdbc:postgresql://localhost/Infostroy?user=admin&password=admin";
 
-	private static Logger log = Logger.getLogger(PostgreDAOFactory.class);
-
+	private static Logger log = LogManager.getLogger(PostgreDAOFactory.class);
 	public static Connection getConnection() throws SQLException {
 		Connection con = null;
 		try {

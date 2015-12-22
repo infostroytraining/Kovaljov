@@ -8,7 +8,8 @@ import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import ua.nure.infostroy.dao.UserDAO;
 import ua.nure.infostroy.dao.exceptions.DAOException;
@@ -19,7 +20,7 @@ import ua.nure.infostroy.utils.MD5Encrypter;
 import ua.nure.infostroy.utils.Validator;
 
 public class UserService {
-	private Logger log = Logger.getLogger(UserService.class);
+	private Logger log = LogManager.getLogger(UserService.class);
 	private TransactionService transactionService;
 
 	public void registerUser(HttpWrapper wrapper)

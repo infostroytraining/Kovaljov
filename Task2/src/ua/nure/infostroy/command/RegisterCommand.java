@@ -5,16 +5,17 @@ import java.security.NoSuchAlgorithmException;
 
 import javax.servlet.ServletException;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import ua.nure.infostroy.dao.exceptions.DAOException;
 import ua.nure.infostroy.entity.HttpWrapper;
 import ua.nure.infostroy.entity.User;
 import ua.nure.infostroy.services.UserService;
 
-public class RegisterCommand extends AbstractCommand implements Command {
+public class RegisterCommand extends AbstractCommand {
 	private User user;
-	private Logger log = Logger.getLogger(RegisterCommand.class);
+	private Logger log = LogManager.getLogger(RegisterCommand.class);
 	public RegisterCommand() {
 	}
 

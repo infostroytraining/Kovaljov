@@ -6,7 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import ua.nure.infostroy.dao.UserDAO;
 import ua.nure.infostroy.dao.exceptions.DAOException;
@@ -15,7 +16,7 @@ import ua.nure.infostroy.dao.queries.Query;
 import ua.nure.infostroy.entity.User;
 
 public class UserDAOImpl implements UserDAO {
-	private static Logger log = Logger.getLogger(UserDAOImpl.class);
+	private static Logger log = LogManager.getLogger(UserDAOImpl.class);
 
 	@Override
 	public User insert(User user) throws DAOException {

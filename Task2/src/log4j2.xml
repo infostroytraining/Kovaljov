@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration packages ="ua.nure.infostroy/log4j.appender" status="WARN">
+  <Appenders>
+    <Console name="Console" target="SYSTEM_OUT">
+      <PatternLayout pattern="%highlight{%d{HH:mm:ss.SSS} [%t] %-5level %logger{36}:%method:%line - %msg%n}{FATAL=white, ERROR=red, WARN=blue, INFO=black, DEBUG=green, TRACE=blue}"/>
+    </Console>
+     <File name="File" fileName="resources/app.log">
+        <PatternLayout pattern="%highlight{%d{HH:mm:ss.SSS} [%t] %-5level %logger{36}:%method:%line - %msg%n}{FATAL=white, ERROR=red, WARN=blue, INFO=black, DEBUG=green, TRACE=blue}"/>
+    </File>      
+    <CustomAppender name="MyAppender"/>
+  </Appenders>
+  <Loggers>
+    <Root level="all">
+      <AppenderRef ref="Console"/>
+      <AppenderRef ref="File"/>
+       <AppenderRef ref="MyAppender"/>
+    </Root>
+  </Loggers>
+</Configuration>
