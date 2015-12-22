@@ -21,7 +21,7 @@ import ua.nure.infostroy.utils.Validator;
 
 public class UserService {
 	private Logger log = LogManager.getLogger(UserService.class);
-	private TransactionService transactionService;
+	private TransactionService transactionService = new TransactionService();
 
 	public void registerUser(HttpWrapper wrapper)
 			throws IOException, ServletException, NoSuchAlgorithmException, DAOException {

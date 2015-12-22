@@ -41,6 +41,7 @@ public class LoginCommand extends AbstractCommand {
 	@Override
 	public void excecute() {
 		try {
+			log.info("Try login");
 			new UserService().login(getHttpWrapper());
 		} catch (ServletException | IOException | NoSuchAlgorithmException | DAOException e) {
 			log.error(e.getMessage());

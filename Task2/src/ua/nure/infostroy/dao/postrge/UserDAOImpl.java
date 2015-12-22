@@ -16,6 +16,11 @@ import ua.nure.infostroy.dao.queries.Query;
 import ua.nure.infostroy.entity.User;
 
 public class UserDAOImpl implements UserDAO {
+	private static final String USER_PASSWORD = "user_password";
+	private static final String USER_EMAIL = "user_email";
+	private static final String USER_SURNAME = "user_surname";
+	private static final String USER_NAME = "user_name";
+	private static final String USER_ID = "user_id";
 	private static Logger log = LogManager.getLogger(UserDAOImpl.class);
 
 	@Override
@@ -45,7 +50,7 @@ public class UserDAOImpl implements UserDAO {
 				return null;
 			try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
 				if (generatedKeys.next()) {
-					user.setUserId(generatedKeys.getLong(1));
+					user.setUserId(generatedKeys.getInt(USER_ID));
 				} else {
 					throw new SQLException("Creating user failed, no ID obtained.");
 				}
@@ -78,11 +83,11 @@ public class UserDAOImpl implements UserDAO {
 			pstmt.setLong(1, objectId);
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next()) {
-				user.setUserId(rs.getLong(1));
-				user.setUserName(rs.getString(2));
-				user.setUserSurname(rs.getString(3));
-				user.setEmail(rs.getString(4));
-				user.setPassword(rs.getString(5));
+				user.setUserId(rs.getLong(USER_ID));
+				user.setUserName(rs.getString(USER_NAME));
+				user.setUserSurname(rs.getString(USER_SURNAME));
+				user.setEmail(rs.getString(USER_EMAIL));
+				user.setPassword(rs.getString(USER_PASSWORD));
 			}
 			return user;
 		} catch (SQLException e) {
@@ -167,7 +172,7 @@ public class UserDAOImpl implements UserDAO {
 		User user = null;
 		try {
 			con = PostgreDAOFactory.getConnection();
-			user = getUserByEmailAndPassword(con, email,password);
+			user = getUserByEmailAndPassword(con, email, password);
 		} catch (SQLException e) {
 			log.error("Can not get user.", e);
 			throw new DAOException(e);
@@ -180,15 +185,15 @@ public class UserDAOImpl implements UserDAO {
 		User user = new User();
 		try {
 			pstmt = con.prepareStatement(Query.GET_USER_BY_EMAIL_PASSWORD);
-			pstmt.setString(1,email);
+			pstmt.setString(1, email);
 			pstmt.setString(2, password);
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next()) {
-				user.setUserId(rs.getLong(1));
-				user.setUserName(rs.getString(2));
-				user.setUserSurname(rs.getString(3));
-				user.setEmail(rs.getString(4));
-				user.setPassword(rs.getString(5));
+				user.setUserId(rs.getLong(USER_ID));
+				user.setUserName(rs.getString(USER_NAME));
+				user.setUserSurname(rs.getString(USER_SURNAME));
+				user.setEmail(rs.getString(USER_EMAIL));
+				user.setPassword(rs.getString(USER_PASSWORD));
 			}
 			return user;
 		} catch (SQLException e) {

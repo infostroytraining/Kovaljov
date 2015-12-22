@@ -12,6 +12,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import ua.nure.infostroy.command.URLCommand;
+import ua.nure.infostroy.dao.exceptions.DAOException;
 import ua.nure.infostroy.entity.HttpWrapper;
 
 @WebServlet("/app/*")
@@ -26,8 +27,11 @@ public class MainServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		HttpWrapper wrapper = new HttpWrapper(request, response);
-		URLCommand.getCommand(request.getRequestURI().substring(request.getContextPath().length()), wrapper).excecute();
-		log.info("Request has been received by url: " + request.getPathInfo());
+		try {
+			URLCommand.getCommand(request.getRequestURI().substring(request.getContextPath().length()), wrapper).excecute();
+		} catch (DAOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

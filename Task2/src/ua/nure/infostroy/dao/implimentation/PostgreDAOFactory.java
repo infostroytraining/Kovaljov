@@ -8,20 +8,22 @@ import java.sql.Statement;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import ua.nure.infostroy.dao.LogDAO;
 import ua.nure.infostroy.dao.UserDAO;
 import ua.nure.infostroy.dao.exceptions.DAOException;
+import ua.nure.infostroy.dao.postrge.LogDAOImpl;
 import ua.nure.infostroy.dao.postrge.UserDAOImpl;
 
 public class PostgreDAOFactory extends DAOFactory {
 	public static final String DRIVER = "org.postgresql.Driver";
-	public static final String DBURL = "jdbc:postgresql://localhost/Infostroy?user=admin&password=admin";
+	public static final String DBURL = "jdbc:postgresql://localhost:5432/Infostroy";
 
 	private static Logger log = LogManager.getLogger(PostgreDAOFactory.class);
 	public static Connection getConnection() throws SQLException {
 		Connection con = null;
 		try {
 			Class.forName(DRIVER);
-			con = DriverManager.getConnection(DBURL);
+			con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/Infostroy?characterEncoding=utf8","postgres","admin");
 			con.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 			con.setAutoCommit(false);
 		} catch (SQLException e) {
@@ -88,6 +90,11 @@ public class PostgreDAOFactory extends DAOFactory {
 	@Override
 	public UserDAO getUserDAO() {
 		return new UserDAOImpl();
+	}
+
+	@Override
+	public LogDAO getLogDAO() {
+		return new LogDAOImpl();
 	}
 
 }

@@ -42,7 +42,7 @@ public class CustomAppender extends AbstractAppender{
     }
     private void sendPost(String message) throws Exception {
     	HttpClient httpclient = HttpClients.createDefault();
-    	HttpPost httppost = new HttpPost("http://localhost:8080/Task2/logs");
+    	HttpPost httppost = new HttpPost("http://localhost:8080/Task2/app/logs");
     	List<NameValuePair> params = new ArrayList<NameValuePair>(2);
     	params.add(new BasicNameValuePair("logEvent", message));
     	httppost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));

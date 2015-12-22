@@ -11,7 +11,8 @@ public class URLCommand {
 		URL_TO_COMMAND.put("/app/register", new RegisterCommand());
 		URL_TO_COMMAND.put("/app/login", new LoginCommand());
 		URL_TO_COMMAND.put("/app/logout", new LogoutCommand());
-		URL_TO_COMMAND.put("/logs", new LogoutCommand());
+		URL_TO_COMMAND.put("/app/logs", new LogCommand());
+		URL_TO_COMMAND.put("/app/logs/get", new GetLogCommand());
 	}
 	public static Command getCommand(String url, HttpWrapper http) {
 		AbstractCommand command = (AbstractCommand) URL_TO_COMMAND.get(url);
