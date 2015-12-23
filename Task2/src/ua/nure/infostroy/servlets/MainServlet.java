@@ -20,18 +20,20 @@ public class MainServlet extends HttpServlet {
 	
 	private Logger log = LogManager.getLogger(MainServlet.class);
 	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		doPost(req,resp);
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		HttpWrapper wrapper = new HttpWrapper(request, response);
 		try {
 			URLCommand.getCommand(request.getRequestURI().substring(request.getContextPath().length()), wrapper).excecute();
 		} catch (DAOException e) {
-			e.printStackTrace();
+			log.error(e);
 		}
 	}
+	
+	
 
 }
