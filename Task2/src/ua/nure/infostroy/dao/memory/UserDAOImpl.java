@@ -51,11 +51,20 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public User getUserByEmailAndPassword(String email, String password) {
-		System.out.println(email);
-		System.out.println(password);
 		Set<User> users = getUsers();
 		for (User user : users) {
 			if (user.getEmail().intern() == email.intern() && user.getPassword().intern() == password.intern()) {
+				return user;
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public User getUserByEmail(String email) {
+		Set<User> users = getUsers();
+		for (User user : users) {
+			if (user.getEmail().intern() == email.intern()) {
 				return user;
 			}
 		}

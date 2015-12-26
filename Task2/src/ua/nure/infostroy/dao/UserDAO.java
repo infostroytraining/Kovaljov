@@ -6,5 +6,5 @@ import ua.nure.infostroy.entity.User;
 public interface UserDAO extends CRUD<User> {
 	
 	User getUserByEmailAndPassword(String email, String password) throws DAOException;
-
+	User getUserByEmail(String email) throws DAOException;
 }

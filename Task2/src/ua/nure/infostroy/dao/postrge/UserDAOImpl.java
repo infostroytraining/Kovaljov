@@ -209,4 +209,46 @@ public class UserDAOImpl implements UserDAO {
 		}
 	}
 
+	@Override
+	public User getUserByEmail(String email) throws DAOException {
+		Connection con = null;
+		User user = null;
+		try {
+			con = PostgreDAOFactory.getConnection();
+			user = getUserByEmail(con, email);
+		} catch (SQLException e) {
+			log.error("Can not get user.", e);
+			throw new DAOException(e);
+		}
+		return user;
+	}
+
+	private User getUserByEmail(Connection con, String email) throws SQLException {
+		PreparedStatement pstmt = null;
+		User user = new User();
+		try {
+			pstmt = con.prepareStatement(Query.GET_USER_BY_EMAIL);
+			pstmt.setString(1, email);
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next()) {
+				user.setUserId(rs.getLong(USER_ID));
+				user.setUserName(rs.getString(USER_NAME));
+				user.setUserSurname(rs.getString(USER_SURNAME));
+				user.setEmail(rs.getString(USER_EMAIL));
+				user.setPassword(rs.getString(USER_PASSWORD));
+			}
+			return user;
+		} catch (SQLException e) {
+			throw e;
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					log.error("Can not close statement.", e);
+				}
+			}
+		}
+	}
+
 }

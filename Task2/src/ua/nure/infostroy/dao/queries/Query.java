@@ -16,4 +16,6 @@ public class Query {
 			+ "VALUES (?);";
 
 	public static final String GET_LOGS = "Select * From log";
+
+	public static final String GET_USER_BY_EMAIL = "Select * From users where user_email=?";
 }
