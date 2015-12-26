@@ -16,13 +16,16 @@ var checkform = function(){
 		return false;
 	}
 	$.ajax({
-		  url: "/app/email",
+		  url: "/Task2/app/email",
 		  data: {
 			 email:$('input[name=email]').val()
 		  }
 		}).done(function(data) {
-			console.log(data);
+			if (data==0) {
+				swal("Такая почта уже занята");
+				return false;
+			} else {
+				return true;
+			}
 		});
-	swal($('input[name=email]').val());
-	return false;
 }

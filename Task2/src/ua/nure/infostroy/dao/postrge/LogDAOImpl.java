@@ -27,9 +27,16 @@ public class LogDAOImpl implements LogDAO {
 		try {
 			con = PostgreDAOFactory.getConnection();
 			result = insert(con, object);
+			if (result!=null) {
+				con.commit();
+			} else {
+				PostgreDAOFactory.rollback(con);
+			}
 		} catch (SQLException e) {
 			log.error("Can not insert user.", e);
 			throw new DAOException(e);
+		} finally{
+			PostgreDAOFactory.close(con);
 		}
 		return result;
 	}
@@ -40,8 +47,9 @@ public class LogDAOImpl implements LogDAO {
 		try {
 			pstmt = con.prepareStatement(Query.INSERT_LOG, Statement.RETURN_GENERATED_KEYS);
 			pstmt.setString(1, object.getLogText());
-			if (pstmt.executeUpdate() != 1)
+			if (pstmt.executeUpdate() != 1) {
 				return null;
+			}
 			try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
 				if (generatedKeys.next()) {
 					object.setLogId(generatedKeys.getInt("log_id"));

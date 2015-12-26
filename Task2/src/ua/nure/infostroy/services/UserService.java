@@ -25,6 +25,7 @@ public class UserService {
 
 	public void registerUser(HttpWrapper wrapper)
 			throws IOException, ServletException, NoSuchAlgorithmException, DAOException {
+		DAOFactory factory = (DAOFactory) wrapper.getRequest().getServletContext().getAttribute("factory");
 		List<String> errors = new ArrayList<>();
 		HttpServletRequest request = wrapper.getRequest();
 		Validator validator = new Validator();
@@ -49,9 +50,9 @@ public class UserService {
 			errors.add("User name is invalid");
 		}
 		if (errors.isEmpty()) {
-			UserDAO dao = DAOFactory.getDAOFactory(DAOFactory.POSTRGE).getUserDAO();
+			UserDAO dao = factory.getUserDAO();
 			final User user = new User(-1, firstName, secondName, email, new MD5Encrypter().encryptIt(password), "");
-			transactionService.doTask(() -> dao.insert(user), 1, DAOFactory.getDAOFactory(DAOFactory.POSTRGE));
+			dao.insert(user);
 			log.info("User " + user.getUserSurname() + " has been successfuly registered");
 			wrapper.getRequest().getSession().setAttribute("user", user);
 			wrapper.getResponse().sendRedirect("../main.jsp");
@@ -64,6 +65,7 @@ public class UserService {
 
 	public void login(HttpWrapper wrapper)
 			throws ServletException, IOException, NoSuchAlgorithmException, DAOException {
+		DAOFactory factory = (DAOFactory) wrapper.getRequest().getServletContext().getAttribute("factory");
 		List<String> errors = new ArrayList<>();
 		HttpServletRequest request = wrapper.getRequest();
 		String password = request.getParameter("password");
@@ -74,11 +76,10 @@ public class UserService {
 		if (email == null) {
 			errors.add("email is empty");
 		}
-		UserDAO dao = DAOFactory.getDAOFactory(DAOFactory.POSTRGE).getUserDAO();
+		UserDAO dao = factory.getUserDAO();
 
 		if (errors.isEmpty()) {
-			User user = transactionService.doTask(() -> dao.getUserByEmailAndPassword(email, password), 1,
-					DAOFactory.getDAOFactory(DAOFactory.POSTRGE));
+			User user = dao.getUserByEmailAndPassword(email, password);
 			if (user != null) {
 				log.info("User " + user.getUserSurname() + "has been entered to the system");
 				wrapper.getRequest().getSession().setAttribute("user", user);

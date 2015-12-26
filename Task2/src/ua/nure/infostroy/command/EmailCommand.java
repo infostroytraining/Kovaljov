@@ -7,12 +7,12 @@ import ua.nure.infostroy.dao.implimentation.DAOFactory;
 import ua.nure.infostroy.entity.User;
 
 public class EmailCommand extends AbstractCommand {
-
+	DAOFactory dao = (DAOFactory) getHttpWrapper().getRequest().getServletContext().getAttribute("factory");
 	@Override
 	public void excecute() throws DAOException, IOException {
 		String parameter = getHttpWrapper().getRequest().getParameter("email");
 		System.out.println(parameter);
-		User user = DAOFactory.getDAOFactory(DAOFactory.POSTRGE).getUserDAO().getUserByEmail(parameter);
+		User user = dao.getUserDAO().getUserByEmail(parameter);
 		if (user==null) {
 			getHttpWrapper().getResponse().getWriter().print("1");
 		}

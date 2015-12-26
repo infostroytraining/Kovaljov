@@ -30,9 +30,16 @@ public class UserDAOImpl implements UserDAO {
 		try {
 			con = PostgreDAOFactory.getConnection();
 			result = insertUser(con, user);
+			if (result !=null) {
+				con.commit();
+			} else {
+				PostgreDAOFactory.rollback(con);
+			}
 		} catch (SQLException e) {
 			log.error("Can not insert user.", e);
 			throw new DAOException(e);
+		} finally {
+			PostgreDAOFactory.close(con);
 		}
 		return result;
 	}
@@ -225,12 +232,13 @@ public class UserDAOImpl implements UserDAO {
 
 	private User getUserByEmail(Connection con, String email) throws SQLException {
 		PreparedStatement pstmt = null;
-		User user = new User();
+		User user = null;
 		try {
 			pstmt = con.prepareStatement(Query.GET_USER_BY_EMAIL);
 			pstmt.setString(1, email);
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next()) {
+				user = new User();
 				user.setUserId(rs.getLong(USER_ID));
 				user.setUserName(rs.getString(USER_NAME));
 				user.setUserSurname(rs.getString(USER_SURNAME));

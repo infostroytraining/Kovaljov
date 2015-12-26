@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Properties;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,7 +24,11 @@ public class PostgreDAOFactory extends DAOFactory {
 		Connection con = null;
 		try {
 			Class.forName(DRIVER);
-			con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/Infostroy?characterEncoding=utf8","postgres","admin");
+			String url = "jdbc:postgresql://localhost:5432/Infostroy";
+			Properties props = new Properties();
+			props.setProperty("user","postgres");
+			props.setProperty("password","admin");
+			con = DriverManager.getConnection(url, props);
 			con.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 			con.setAutoCommit(false);
 		} catch (SQLException e) {

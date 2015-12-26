@@ -4,13 +4,13 @@ import ua.nure.infostroy.dao.LogDAO;
 import ua.nure.infostroy.dao.UserDAO;
 
 public abstract class DAOFactory {
-	public static final int MEMORY = 1;
-	public static final int POSTRGE = 2;
+	public static final String MEMORY = "Memory";
+	public static final String POSTRGE = "Postgre";
 
 	public abstract UserDAO getUserDAO();
 	public abstract LogDAO getLogDAO();
 
-	public static DAOFactory getDAOFactory(int whichFactory) {
+	public static DAOFactory getDAOFactory(String whichFactory) {
 		switch (whichFactory) {
 		case MEMORY:
 			return new MemDAOFactory();
