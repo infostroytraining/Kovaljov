@@ -1,3 +1,4 @@
+var mydata = null;
 window.onload = function () {
     document.getElementById("password").onchange = validatePassword;
     document.getElementById("password_confirmation").onchange = validatePassword;
@@ -17,15 +18,19 @@ var checkform = function(){
 	}
 	$.ajax({
 		  url: "/Task2/app/email",
+		  async:false,
 		  data: {
 			 email:$('input[name=email]').val()
 		  }
-		}).done(function(data) {
-			if (data==0) {
-				swal("Такая почта уже занята");
-				return false;
-			} else {
-				return true;
-			}
+		}).complete(function(data) {
+			mydata = data.responseText;
+			console.log(mydata);
 		});
+	console.log(mydata);
+	if (mydata==0) {
+		swal("Такая почта уже занята","","error");
+		return false;
+	} else {
+		return true;
+	}
 }

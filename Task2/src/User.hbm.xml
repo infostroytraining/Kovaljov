@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="ua.nure.infostroy.entity">
+	<class name="User" table="users">
+		<id column="userId" name="user_id" type="java.lang.Long">
+			<generator class="increment" />
+		</id>
+		<property column="userName" name="user_name" type="java.lang.String" />
+		<property column="userSurname" name="user_surname" type="java.lang.String" />
+		<property column="email" name="user_email" type="java.lang.String" />
+		<property column="password" name="user_password" type="java.lang.String" />
+	</class>
+</hibernate-mapping>

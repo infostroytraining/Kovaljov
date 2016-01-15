@@ -2,19 +2,19 @@ package ua.nure.infostroy.dao.implimentation;
 
 import ua.nure.infostroy.dao.LogDAO;
 import ua.nure.infostroy.dao.UserDAO;
-import ua.nure.infostroy.dao.memory.LogDAOImpl;
-import ua.nure.infostroy.dao.memory.UserDAOImpl;
+import ua.nure.infostroy.dao.hibernate.HibernateUserDAO;
 
-public class MemDAOFactory extends DAOFactory {
+public class HibernateDAOFactory extends DAOFactory {
 
 	@Override
 	public UserDAO getUserDAO() {
-		return new UserDAOImpl();
+		return new HibernateUserDAO();
 	}
 
 	@Override
 	public LogDAO getLogDAO() {
-		return new LogDAOImpl();
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

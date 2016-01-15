@@ -30,6 +30,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import ua.nure.infostroy.command.Command;
 import ua.nure.infostroy.command.URLCommand;
 import ua.nure.infostroy.dao.exceptions.DAOException;
+import ua.nure.infostroy.dao.implimentation.MemDAOFactory;
 import ua.nure.infostroy.services.TransactionService;
 import ua.nure.infostroy.services.UserService;
 import ua.nure.infostroy.servlets.MainServlet;
@@ -59,6 +60,7 @@ public class MyTest {
 		when(request.getRequestURI()).thenReturn("/Task2/app/register");
 		when(request.getContextPath()).thenReturn("/Task2");
 		when(request.getSession()).thenReturn(session);
+		when(context.getAttribute("factory")).thenReturn(new MemDAOFactory());
 	}
 
 	@Test

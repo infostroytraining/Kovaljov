@@ -10,7 +10,6 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 
 public class ExtensionChain extends Chain{
-
 	@Override
 	@SuppressWarnings("unchecked")
 	public void search(Object parameter) {

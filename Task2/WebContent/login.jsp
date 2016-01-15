@@ -24,7 +24,7 @@
             </form><!-- /form -->
              <div class="form-group">
                             <p class="text-center m-t-xs text-sm">Do not have an account?</p> 
-                            <a href="Task2/index.jsp" class="btn btn-default btn-block m-t-md ">Create an account</a>
+                            <a href="/Task2/index.jsp" class="btn btn-default btn-block m-t-md ">Create an account</a>
                         </div>
         </div><!-- /card-container -->
     </div>

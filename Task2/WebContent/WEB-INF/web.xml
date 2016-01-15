@@ -8,12 +8,15 @@
     <servlet-name>Kaptcha</servlet-name>
     <servlet-class>com.google.code.kaptcha.servlet.KaptchaServlet</servlet-class>
   </servlet>
+  <listener>
+		<listener-class>ua.nure.infostroy.listener.MyServletContextListener</listener-class>
+	</listener>
   <servlet-mapping>
     <servlet-name>Kaptcha</servlet-name>
     <url-pattern>/kaptcha.jpg</url-pattern>
   </servlet-mapping>
   <context-param>
 		<param-name>storage</param-name>
-		<param-value>Postgre</param-value>
+		<param-value>Memory</param-value>
 	</context-param>
 </web-app>

@@ -42,7 +42,7 @@ public class FileChain extends Chain {
 		Iterator<File> iterator = files.iterator();
 		while (iterator.hasNext()) {
 			File file = iterator.next();
-			if (file.getName().equals(fileName)) {
+			if (file.getName().contains(fileName)) {
 				result.add(file);
 			}
 		}
@@ -62,7 +62,7 @@ public class FileChain extends Chain {
 		Iterator<File> iterator = files.iterator();
 		while (iterator.hasNext()) {
 			File file = iterator.next();
-			if (file.getName().equals(fileName)) {
+			if (file.getName().contains(fileName)) {
 				result.add(file);
 			}
 		}
